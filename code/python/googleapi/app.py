@@ -6,8 +6,8 @@ import uvicorn
 app = FastAPI()
 
 baseurl = 'https://www.googleapis.com/customsearch/v1'
-google_search_key = 'AIzaSyAniSybnbM60SSn2vb1aUdJr-ClS0aL_30'
-google_cx_id = 'd09dc98d76025494e'
+google_search_key = '你自己的google search key'
+google_cx_id = '你自己的cx_id'
 
 @app.post('/search')
 async def search_google(search_key: str):
