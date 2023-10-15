@@ -1,16 +1,25 @@
-from fastapi import FastAPI
-
+from fastapi import FastAPI,Request
+from pydantic import BaseModel
 import requests
 import uvicorn
 
 app = FastAPI()
+
+class SearchRequest(BaseModel):
+    variables: dict
+    search_key: str
 
 baseurl = 'https://www.googleapis.com/customsearch/v1'
 google_search_key = '你自己的google search key'
 google_cx_id = '你自己的cx_id'
 
 @app.post('/search')
-async def search_google(search_key: str):
+async def search_google(search_request: SearchRequest):
+    print("search_google 开始")
+    cTime = search_request.variables.get("cTime")
+    search_key = search_request.search_key
+    print(search_key)
+    print(cTime)
     if not search_key:
         return {
             'prompt': ''
@@ -29,6 +38,7 @@ async def search_google(search_key: str):
         response = requests.get(baseurl, params=params)
         data = response.json()
         result = '\n'.join(item['snippet'] for item in data['items'])
+        print(result)
         return {'prompt': f'搜索词: {search_key};google 搜索结果: {result}'}
     except Exception as err:
         print(err)

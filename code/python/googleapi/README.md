@@ -11,7 +11,7 @@
 
      修改代码中google_search_key 、google_cx_id 为你自己的账号信息，申请地址可以参考https://zhuanlan.zhihu.com/p/174666017
 
-    ![image-20231015081302835](C:/Users/Administrator/AppData/Roaming/Typora/typora-user-images/image-20231015081302835.png)
+    ![image-20231015081302835](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231015081302835.png)
 
 4. 运行
     
