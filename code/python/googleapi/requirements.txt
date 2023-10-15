@@ -1,0 +1,5 @@
+uvicorn==0.23.2
+FastAPI==0.103.2
+pydantic==2.4.2
+pydantic_core==2.10.1
+requests==2.31.0
