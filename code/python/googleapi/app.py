@@ -10,8 +10,8 @@ class SearchRequest(BaseModel):
     search_key: str
 
 baseurl = 'https://www.googleapis.com/customsearch/v1'
-google_search_key = '你自己的google search key'
-google_cx_id = '你自己的cx_id'
+google_search_key = 'AIzaSyAniSybnbM60SSn2vb1aUdJr-ClS0aL_30'
+google_cx_id = 'd09dc98d76025494e'
 
 @app.post('/search')
 async def search_google(search_request: SearchRequest):
