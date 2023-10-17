@@ -4,7 +4,7 @@
 
 启智平台实现千问自动化发布演示视频地址
 
-[![启智平台实现千问自动化发布]()](https://foul-maxilla-075.notion.site/e6b93aa3d21f41219470dd4eb708e47a?pvs=4)
+[![启智平台实现千问自动化发布](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_16975267528073.png)](https://foul-maxilla-075.notion.site/e6b93aa3d21f41219470dd4eb708e47a?pvs=4)
 
 # 先决条件
 1. 拥有启智平台的登录账号，不会的小伙伴可以自行注册
@@ -274,7 +274,7 @@ driver = webdriver.Firefox(service=Service('D:\\devlop\\dev\\dazahui\\code\\pyth
 
 ​     镜像运行和打包可以参考视频  video/启智平台docker镜像打包.mp4
 
-​     [![启智平台docker镜像打包](https://foul-maxilla-075.notion.site/docker-2854836497024c1b9b53d8ab54b06294?pvs=4)](https://foul-maxilla-075.notion.site/docker-2854836497024c1b9b53d8ab54b06294?pvs=4)
+​     [![启智平台docker镜像打包](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1%E6%88%AA%E5%9B%BE_16975269235103.png)](https://foul-maxilla-075.notion.site/docker-2854836497024c1b9b53d8ab54b06294?pvs=4)
 
    
 
