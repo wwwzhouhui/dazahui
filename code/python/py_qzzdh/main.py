@@ -31,8 +31,9 @@ def get_status(driver):
 
 def main():
     option = Options()
-    #option.add_argument('--headless')
-    driver = webdriver.Firefox(service=Service('D:\\devlop\\dev\\dazahui\\code\\python\\py_qzzdh\\util\\geckodriver.exe'), options=option)
+    option.add_argument('--headless')
+    driver = webdriver.Firefox(service=Service('geckodriver'), options=option)
+    #driver = webdriver.Firefox(service=Service('D:\\devlop\\dazahui\\code\\python\\py_qzzdh\\util\\geckodriver.exe'), options=option)
     #driver = webdriver.Firefox(options=option)
     #driver = webdriver.Chrome(service=Service('D:\\devlop\\dev\\dazahui\\code\\python\\py_qzzdh\\util\\chromedriver.exe'),options=option)
 

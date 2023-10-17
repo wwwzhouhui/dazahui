@@ -4,13 +4,29 @@
 
 # 先决条件
 1. 拥有启智平台的登录账号，不会的小伙伴可以自行注册
-2. 创建一个云脑容器平台
+
+   启智平台地址https://openi.pcl.ac.cn/
+
+2. 创建一个云脑容器平台（后面详细介绍）
+
 3. 云脑平台内部文件卷安装部署好frp linux版本软件 软件。
    frp_0.51.3_linux_amd64.tar.gz软下载地址（下载最新的软件包即可）
    https://github.com/fatedier/frp/releases
+   
 4. 需要一台公网服务器，这台服务器需要安装frp服务端，主要作用frp客户端反向链接到这个服务端使用
 
-# 先决条件软件安装步骤
+# 																		系统部署及原理图
+
+![image-20231017132124658](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017132124658.png)
+
+  1.启智平台提供容器计算服务，我们在容器计算服务内部部署通义千问大模型（Qwen-7B-Chat）和frp客户端程序。
+
+2. 通过一个自动化监控爬虫程序监听启智平台提供容器计算服务实现触发启动命令及容器内部python组件包安装和通义千问大模型、frp客户端程序启动工作。
+3. 启智平台提供容器计算服务提供4个小时的运行，运行完成后自动关闭。我们需要通过这个自动化程序监听容器是否对外提供服务，如果服务停止，里面自动实现重启。从而保证服务持续可用。
+
+
+
+# 软件安装步骤
 
 ​     1.frp 服务端部署frps.ini （程序下载地址https://github.com/fatedier/frp/releases)
 
@@ -95,7 +111,106 @@ http://124.220.204.108:7500
 
    3. 启智平台启动 Jupyter Notebook 后相关配置
 
-      
+      ​     ![image-20231017111141707](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017111141707.png)
+
+   程序启动后 代码是挂在 /code  目录下， 模型挂在 /dataset 目录下
+
+  ![image-20231017112728022](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017112728022.png)
+
+   进入 程序目录下 
+
+![image-20231017112906880](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017112906880.png)
+
+ 输入 bash  、然后在输入 cd /code 进入代码目录下，默认情况下code 目录下只有一个master.zip 文件夹
+
+![image-20231017113132117](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017113132117.png)
+
+ 我们需要解压程序master.zip，输入以下命令
+
+```
+unzip master.zip
+```
+
+ 解压后就可以看到 qwen 文件夹了
+
+![image-20231017113318400](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017113318400.png)
+
+上传sh脚本到/code目录下
+
+​     ![image-20231017111503527](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017111503527.png)
+
+ sh脚本代码如下
+
+```shell
+# 进入目录
+cd /code/qwen
+# 安装依赖
+pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn
+pip install auto-gptq optimum  -i https://pypi.tuna.tsinghua.edu.cn/simple --trusted-host pypi.tuna.tsinghua.edu.cn
+pip uninstall langchain -y
+pip install fastapi uvicorn openai "pydantic>=2.3.0" sse_starlette
+# 启动frpc
+cd frp_0.51.3_linux_amd64 && nohup ./frpc -c ./frpc.ini >/dev/null 2>&1&
+# 启动Python应用程序
+nohup python openai_api.py > log.txt&
+echo "应用程序已启动."
+```
+
+   上传frp_0.51.3_linux_amd64.tar.gz到 /code/qwen 目录下
+
+  ![image-20231017111742994](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017111742994.png)
+
+ 解压frp_0.51.3_linux_amd64.tar.gz
+
+```
+tar -xvf frp_0.51.3_linux_amd64.tar.gz
+```
+
+   ![image-20231017111902460](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017111902460.png)
+
+ 我们需要修改frpc.ini 文件 文件目录 cd /code/qwen/frp_0.51.3_linux_amd64 目录下
+
+![image-20231017112033358](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017112033358.png)
+
+配置文件如下：
+
+```
+[common]
+server_addr = 124.220.204.108
+server_port = 8000
+   
+[web]
+type = http
+local_port = 8000
+custom_domains= 124.220.204.108
+
+```
+
+​    server_addr、server_port  是 公网服务器 IP  124.220.204.108  对应监听的端口8000
+
+   web  配置简单说明
+
+​     type = http   这个不需要修改
+
+​     local_port  是本地 千问openai_api.py 代码中监听端口
+
+​     ![image-20231017112448134](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017112448134.png)
+
+   custom_domains  就换成远程服务器 IP ，当然你也可以换成远程服务器公网域名
+
+接下来我们需要修改通义千问接口openai_api.py 代码，需要将模型地址修改成/dataset/Qwen-7B-Chat ，端口修改8000（这个根据情况选择，端口和相关配置要保持一致）
+
+![image-20231017114027652](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017114027652.png)
+
+
+
+注：如果dataset 模型没有自动解压，需要执行 解压命令 手工解压
+
+```
+unzip Qwen-7B-Chat.zip
+```
+
+![image-20231017113907828](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017113907828.png)
 
 # 启智平台自动登录脚本说明
 
@@ -106,8 +221,27 @@ http://124.220.204.108:7500
         pip install loguru==0.7.0
         可以执行 pip install -r requirements.txt  一件执行
 # windows 启动
-        python main.py
+
+​    修改代码 34、35行 代码，将34行无头模式代码注释，方便调试。35行代码geckodriver.exe 和代码文件目录结构保持一致
+
+```
+#option.add_argument('--headless')
+driver = webdriver.Firefox(service=Service('D:\\devlop\\dev\\dazahui\\code\\python\\py_qzzdh\\util\\geckodriver.exe'), options=option)
+```
+
+​    使用火狐浏览器geckodriver.exe
+
+​    ![image-20231017133742479](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017133742479.png)
+
+    D:\develop\Python310\python.exe D:\develop\dazahui\code\python\py_qzzdh\main.py 
+​    ![image-20231017134300239](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017134300239.png)
+
+​     运行程序后，程序会自动火狐浏览器运行起来。后面就完全自动化。
+
 # docker 镜像打包
+
         docker build -t pyqzzdh:v0.1 .
 # docker 镜像运行
          docker run -d pyqzzdh:v0.1
+
+​     镜像运行和打包可以参考视频  video/启智平台docker镜像打包.mp4
