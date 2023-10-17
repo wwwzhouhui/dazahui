@@ -2,6 +2,10 @@
 
 主要功能，启智平台自动登录，自动模拟人工智能云脑平台启动，容器内脚本自动化执行功能
 
+启智平台实现千问自动化发布演示视频地址
+
+[![启智平台实现千问自动化发布]()](https://foul-maxilla-075.notion.site/e6b93aa3d21f41219470dd4eb708e47a?pvs=4)
+
 # 先决条件
 1. 拥有启智平台的登录账号，不会的小伙伴可以自行注册
 
@@ -105,7 +109,13 @@ http://124.220.204.108:7500
 
 ​             点击调试按钮 争取到资源，如果资源分配成功
 
-​         
+​              同时记录下项目清单列表地址，后面程序中task_url 会用到
+
+​              ![image-20231017144619100](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017144619100.png)
+
+​     以上URL 地址：https://openi.pcl.ac.cn/zhouhui/Qwen/debugjob?debugListType=all  
+
+​      ![image-20231017144732258](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017144732258.png)    
 
 ​            点击调试按钮进入 Jupyter Notebook 
 
@@ -212,6 +222,24 @@ unzip Qwen-7B-Chat.zip
 
 ![image-20231017113907828](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231017113907828.png)
 
+  修改 程序conf /conf.ini 文件
+
+
+
+```
+[url]
+login_url = https://openi.pcl.ac.cn/user/login
+task_url = https://openi.pcl.ac.cn/zhouhui/Qwen/debugjob?debugListType=all
+
+[auth]
+user_name = 你自己账号
+password = 你自己的密码
+```
+
+​      task_url 、user_name、password 需要修改，第一个login_url 不需要修改。
+
+​      task_url  对应文档上面 创建的项目list
+
 # 启智平台自动登录脚本说明
 
         Python安装在您的系统上
@@ -245,3 +273,9 @@ driver = webdriver.Firefox(service=Service('D:\\devlop\\dev\\dazahui\\code\\pyth
          docker run -d pyqzzdh:v0.1
 
 ​     镜像运行和打包可以参考视频  video/启智平台docker镜像打包.mp4
+
+​     [![启智平台docker镜像打包](https://foul-maxilla-075.notion.site/docker-2854836497024c1b9b53d8ab54b06294?pvs=4)](https://foul-maxilla-075.notion.site/docker-2854836497024c1b9b53d8ab54b06294?pvs=4)
+
+   
+
+   
