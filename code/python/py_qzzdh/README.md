@@ -278,4 +278,24 @@ driver = webdriver.Firefox(service=Service('D:\\devlop\\dev\\dazahui\\code\\pyth
 
    
 
-   
+​     注意事项：
+
+​     1 上传的start_app.sh  需要赋予可执行命令权限
+
+```
+chmod 755 start_app.sh
+```
+
+​     ![image-20231021120331710](https://mypicture-1258720957.cos.ap-nanjing.myqcloud.com/Obsidian/image-20231021120331710.png)
+
+   2. start_app.sh 在windows环境下编辑的会有如下错误
+
+      ./start_app.sh: 行 12: $'\r'：未找到命令
+
+        需要在linux 命令窗口使用sed i 命令替换
+
+      ```
+      sed -i 's/\r//g' start_app.sh
+      ```
+
+      
