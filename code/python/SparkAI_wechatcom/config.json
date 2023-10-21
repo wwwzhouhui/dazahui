@@ -1,0 +1,9 @@
+{
+  "WECHAT_TOKEN": "企业微信 回调token",
+  "WECHAT_ENCODING_AES_KEY":"企业微信 编码后的AES Key",
+  "WECHAT_CORP_ID":"企业微信 企业ID",
+  "Secret":"企业微信 应用Secret",
+  "AppId":"企业微信 应用ID",
+  "xunfei_app_id":" 讯飞星火APPID 信息",
+  "xunfei_api_key":"讯飞星火AAPISecret 信息"
+}
