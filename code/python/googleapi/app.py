@@ -6,8 +6,7 @@ import uvicorn
 app = FastAPI()
 
 class SearchRequest(BaseModel):
-    variables: dict
-    search_key: str
+    searchKey: str
 
 baseurl = 'https://www.googleapis.com/customsearch/v1'
 google_search_key = 'AIzaSyAniSybnbM60SSn2vb1aUdJr-ClS0aL_30'
@@ -16,10 +15,8 @@ google_cx_id = 'd09dc98d76025494e'
 @app.post('/search')
 async def search_google(search_request: SearchRequest):
     print("search_google 开始")
-    cTime = search_request.variables.get("cTime")
-    search_key = search_request.search_key
+    search_key = search_request.searchKey
     print(search_key)
-    print(cTime)
     if not search_key:
         return {
             'prompt': ''
