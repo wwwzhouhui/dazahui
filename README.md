@@ -13,3 +13,7 @@
 ​    项目代码地址：de\python\py_qzzdh
 3. 企业微信整合讯飞星火实现微信机器人功能
     SparkAI_wechatcom，详细安装部署看readme.md文档
+    
+4. 增加企业微信整合讯飞星火、fastgpt知识库问答系统
+
+     IMtoLLM ，详细安装部署看readme.md文档（部分代码是在SparkAI_wechatcom项目上改的）
